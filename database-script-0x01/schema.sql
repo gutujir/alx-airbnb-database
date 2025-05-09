@@ -1,79 +1,35 @@
--- Create the database 
-CREATE DATABASE airbnb_db;
+-- Insert sample Users
+INSERT INTO "User" (name, email, phone, password_hash) VALUES
+('Alice Johnson', 'alice@example.com', '1234567890', 'hashed_password_1'),
+('Bob Smith', 'bob@example.com', '0987654321', 'hashed_password_2'),
+('Carol White', 'carol@example.com', '1112223333', 'hashed_password_3');
 
--- Create User table
-CREATE TABLE "User" (
-    user_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR(20),
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Insert sample Properties
+INSERT INTO "Property" (user_id, title, description, address, city, country, price_per_night, available_from, available_to)
+VALUES
+(1, 'Cozy Apartment in Addis Ababa', 'A beautiful 2-bedroom apartment in the city center.', '123 Main St', 'Addis Ababa', 'Ethiopia', 45.00, '2025-06-01', '2025-12-31'),
+(2, 'Lake Side Villa', 'Stunning villa with lake view.', '456 Lakeview Dr', 'Bahir Dar', 'Ethiopia', 120.00, '2025-06-01', '2025-09-30');
 
+-- Insert sample Bookings
+INSERT INTO Booking (user_id, property_id, check_in, check_out, total_price, status)
+VALUES
+(3, 1, '2025-07-01', '2025-07-05', 180.00, 'confirmed'),
+(1, 2, '2025-08-10', '2025-08-15', 600.00, 'pending');
 
--- Create Property table
-CREATE TABLE "Property" (
-    property_id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES "User"(user_id),
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    address VARCHAR(255),
-    city VARCHAR(100),
-    country VARCHAR(100),
-    price_per_night DECIMAL(10, 2) NOT NULL,
-    available_from DATE,
-    available_to DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Insert sample Payments
+INSERT INTO Payment (booking_id, amount, payment_method, payment_status)
+VALUES
+(1, 180.00, 'Credit Card', 'Completed'),
+(2, 600.00, 'PayPal', 'Pending');
 
--- Create Booking table
-CREATE TABLE booking (
-  booking_id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
-  property_id INTEGER REFERENCES "Property"(property_id) ON DELETE CASCADE,
-  check_in DATE NOT NULL,
-  check_out DATE NOT NULL,
-  total_price DECIMAL(10, 2) NOT NULL,
-  status VARCHAR(50) DEFAULT 'pending',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Insert sample Reviews
+INSERT INTO Review (booking_id, user_id, property_id, rating, comment)
+VALUES
+(1, 3, 1, 5, 'Amazing stay! Very clean and comfortable.'),
+(2, 1, 2, 4, 'Great view and peaceful place.');
 
--- Create Payment table
-CREATE TABLE Payment (
-    payment_id SERIAL PRIMARY KEY,
-    booking_id INTEGER REFERENCES booking(booking_id),
-    amount DECIMAL(10, 2) NOT NULL,
-    payment_method VARCHAR(50),
-    payment_status VARCHAR(50),
-    transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Create Review table
-CREATE TABLE Review (
-    review_id SERIAL PRIMARY KEY,
-    booking_id INTEGER REFERENCES booking(booking_id),
-    user_id INTEGER REFERENCES "User"(user_id),
-    property_id INTEGER REFERENCES "Property"(property_id),
-    rating INTEGER CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Create Message table
-CREATE TABLE Message (
-    message_id SERIAL PRIMARY KEY,
-    sender_id INTEGER REFERENCES "User"(user_id),
-    receiver_id INTEGER REFERENCES "User"(user_id),
-    property_id INTEGER REFERENCES "Property"(property_id),
-    content TEXT NOT NULL,
-    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Indexes for performance
-CREATE INDEX idx_booking_user_id ON Booking(user_id);
-CREATE INDEX idx_booking_property_id ON Booking(property_id);
-CREATE INDEX idx_property_user_id ON "Property"(user_id);
-CREATE INDEX idx_review_property_id ON Review(property_id);
-CREATE INDEX idx_message_sender_id ON Message(sender_id);
-CREATE INDEX idx_message_receiver_id ON Message(receiver_id);
+-- Insert sample Messages
+INSERT INTO Message (sender_id, receiver_id, property_id, content)
+VALUES
+(3, 1, 1, 'Hi Alice, is the apartment available for July 1st?'),
+(1, 3, 1, 'Yes, it is available. Looking forward to hosting you!');
