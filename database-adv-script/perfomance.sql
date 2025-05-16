@@ -1,4 +1,5 @@
--- Retrieve all bookings with user, property, and payment details
+-- EXPLAIN initial unoptimized query
+EXPLAIN
 SELECT 
     b.booking_id,
     u.first_name,
@@ -17,8 +18,8 @@ JOIN
 JOIN 
     Payment pay ON b.booking_id = pay.booking_id;
 
-
--- Optimized: Indexes assumed in place; columns trimmed to reduce size
+-- EXPLAIN optimized query: Indexes assumed in place; trimmed columns
+EXPLAIN
 SELECT 
     b.booking_id,
     u.first_name,
