@@ -1,4 +1,4 @@
--- EXPLAIN initial unoptimized query
+-- EXPLAIN initial unoptimized query with filtering
 EXPLAIN
 SELECT 
     b.booking_id,
@@ -16,9 +16,11 @@ JOIN
 JOIN 
     Property p ON b.property_id = p.property_id
 JOIN 
-    Payment pay ON b.booking_id = pay.booking_id;
+    Payment pay ON b.booking_id = pay.booking_id
+WHERE
+    pay.amount > 100 AND p.location = 'Addis Ababa';
 
--- EXPLAIN optimized query: Indexes assumed in place; trimmed columns
+-- EXPLAIN optimized query with filtering
 EXPLAIN
 SELECT 
     b.booking_id,
@@ -33,4 +35,6 @@ JOIN
 JOIN 
     Property p ON b.property_id = p.property_id
 JOIN 
-    Payment pay ON b.booking_id = pay.booking_id;
+    Payment pay ON b.booking_id = pay.booking_id
+WHERE
+    pay.amount > 100 AND p.location = 'Addis Ababa';
