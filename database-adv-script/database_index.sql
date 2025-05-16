@@ -9,3 +9,8 @@ CREATE INDEX idx_property_name ON Property(name);
 
 -- Index on User.email (assuming email is used for login/search)
 CREATE INDEX idx_user_email ON "User"(email);
+
+EXPLAIN ANALYZE
+SELECT *
+FROM Booking
+WHERE user_id = 1;
