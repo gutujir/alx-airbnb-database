@@ -1,23 +1,26 @@
-# ALX Airbnb Database: Advanced SQL - Joins Task
+# Airbnb Database Advanced Queries
 
-## 📝 Task 0: Write Complex Queries with Joins
+## 📌 Objective
 
-This task focuses on mastering different types of SQL joins using the Airbnb database schema. The goal is to extract meaningful relationships across users, bookings, properties, and reviews using advanced join techniques.
+This file contains advanced SQL JOIN queries written for the Airbnb database schema using PostgreSQL. The purpose is to demonstrate mastery of SQL joins (INNER, LEFT, and FULL OUTER JOIN).
 
-### ✅ Objectives
+## ✅ Queries
 
-- Use **INNER JOIN** to fetch matching records between tables.
-- Use **LEFT JOIN** to retrieve all records from one table, including unmatched ones.
-- Use **FULL OUTER JOIN** to combine all records from both tables regardless of matches.
+### 1. INNER JOIN
+
+Retrieves all bookings and the users who made them. Ensures only bookings that are linked to valid users are shown.
+
+### 2. LEFT JOIN
+
+Lists all properties and their associated reviews, including properties with no reviews (NULLs in review fields).
+
+### 3. FULL OUTER JOIN
+
+Fetches all users and all bookings. Displays all users, whether they have bookings or not, and all bookings, whether or not they're linked to a user.
 
 ---
 
-## 🔍 SQL Queries
+## 📂 File Structure
 
-### 1. `INNER JOIN`: Get all bookings with user details
-
-```sql
-SELECT bookings.*, users.*
-FROM bookings
-INNER JOIN users ON bookings.user_id = users.id;
-```
+- `joins_queries.sql`: Contains all JOIN queries.
+- `README.md`: Describes the purpose and logic of the queries.
