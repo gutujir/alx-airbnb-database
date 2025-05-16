@@ -24,3 +24,10 @@ Fetches all users and all bookings. Displays all users, whether they have bookin
 
 - `joins_queries.sql`: Contains all JOIN queries.
 - `README.md`: Describes the purpose and logic of the queries.
+
+## Subqueries
+
+This script demonstrates:
+
+- Non-correlated subquery: Selecting properties with an average rating above 4.0.
+- Correlated subquery: Selecting users with more than 3 bookings.
